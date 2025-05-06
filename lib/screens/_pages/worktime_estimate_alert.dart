@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../controllers/app_param/app_param.dart';
 import '../../extensions/extensions.dart';
 import '../../models/genba_worktime.dart';
-import '../../state/app_param/app_param_notifier.dart';
 import '../../viewmodel/holiday_notifier.dart';
 import '../../viewmodel/work_time_notifier.dart';
 
@@ -41,7 +41,7 @@ class WorktimeEstimateAlert extends ConsumerWidget {
               Container(width: context.screenSize.width),
               Text(ym),
               Divider(
-                color: Colors.white.withOpacity(0.4),
+                color: Colors.white.withValues(alpha: 0.4),
                 thickness: 2,
               ),
               Expanded(
@@ -113,7 +113,7 @@ class WorktimeEstimateAlert extends ConsumerWidget {
 
           final color = (DateTime.now().isBefore(ymd))
               ? Colors.transparent
-              : Colors.yellowAccent.withOpacity(0.1);
+              : Colors.yellowAccent.withValues(alpha: 0.1);
 
           list.add(
             DecoratedBox(
@@ -136,7 +136,7 @@ class WorktimeEstimateAlert extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(vertical: 10),
         margin: const EdgeInsets.only(top: 10, bottom: 20),
         decoration: BoxDecoration(
-          color: Colors.yellowAccent.withOpacity(0.1),
+          color: Colors.yellowAccent.withValues(alpha: 0.1),
         ),
         child: Row(
           children: [

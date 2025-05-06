@@ -8,7 +8,7 @@ Future<void> WorktimeDialog(
     context: context,
     builder: (_) {
       return Dialog(
-        backgroundColor: Colors.blueGrey.withOpacity(0.3),
+        backgroundColor: Colors.blueGrey.withValues(alpha: 0.3),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),

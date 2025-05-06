@@ -9,13 +9,7 @@ analyzer:
     public_member_api_docs: ignore
     lines_longer_than_80_chars: ignore
     avoid_function_literals_in_foreach_calls: ignore
-    implicit_dynamic_parameter: ignore
-    implicit_dynamic_type: ignore
-    implicit_dynamic_map_literal: ignore
-    implicit_dynamic_method: ignore
-    implicit_dynamic_list_literal: ignore
-    implicit_dynamic_variable: ignore
-    implicit_dynamic_function: ignore
+
     avoid_setters_without_getters: ignore
     use_setters_to_change_properties: ignore
     inference_failure_on_function_return_type: ignore
@@ -43,7 +37,6 @@ linter:
     - avoid_positional_boolean_parameters
     - avoid_private_typedef_functions
     - avoid_redundant_argument_values
-    - avoid_returning_null
     - avoid_returning_this
     - avoid_setters_without_getters
     - avoid_slow_async_io
@@ -59,7 +52,6 @@ linter:
     - directives_ordering
     - eol_at_end_of_file
     - flutter_style_todos
-    - invariant_booleans
     - join_return_with_assignment
     - lines_longer_than_80_chars
     - literal_only_boolean_expressions
@@ -69,7 +61,6 @@ linter:
     - omit_local_variable_types
     - one_member_abstracts
     - only_throw_errors
-    - package_api_docs
     - parameter_assignments
     - prefer_asserts_in_initializer_lists
     - prefer_constructors_over_static_methods
@@ -94,7 +85,6 @@ linter:
     - unnecessary_null_checks
     - unnecessary_parenthesis
     - unnecessary_statements
-    - unsafe_html
     - use_colored_box
     - use_decorated_box
     - use_enums

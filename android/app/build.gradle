@@ -1,71 +1,82 @@
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
+// android/app/build.gradle  –  copy & paste OK
+
+plugins {
+    id "com.android.application"
+    id "org.jetbrains.kotlin.android"
+    id "dev.flutter.flutter-gradle-plugin"
 }
 
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+def localProps = new Properties()
+def localPropsFile = rootProject.file("local.properties")
+if (localPropsFile.exists()) {
+    localPropsFile.withReader("UTF-8") { localProps.load(it) }
 }
 
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
-}
-
-def flutterVersionName = localProperties.getProperty('flutter.versionName')
-if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
-}
-
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+def flutterVersionCode = (localProps["flutter.versionCode"] ?: "1").toInteger()
+def flutterVersionName = localProps["flutter.versionName"] ?: "1.0"
 
 android {
-    compileSdkVersion 33
-    ndkVersion flutter.ndkVersion
+    namespace "com.example.worktime3"
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+    compileSdk 35
+
+    ndkVersion "27.0.12077973"
+
+
+    defaultConfig {
+        applicationId "com.example.worktime3"
+        minSdk       flutter.minSdkVersion
+        targetSdk    35
+        versionCode  flutterVersionCode
+        versionName  flutterVersionName
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "17"
     }
 
     sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
-
-    defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.worktime3"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        main.java.srcDirs += "src/main/kotlin"
     }
 
     buildTypes {
+        debug {  // デバッグビルド
+            // 追加設定があればここに
+        }
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+            // TODO: 本番では release 用 keystore に差し替える
             signingConfig signingConfigs.debug
+            minifyEnabled false
+            shrinkResources false
         }
     }
 }
 
 flutter {
-    source '../..'
+    // Flutter プロジェクトのルートを指す
+    source "../.."
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    // 追加ライブラリがあればここへ記述
+}
+
+// --- Flutter が期待する flutter-apk ディレクトリへ APK をコピー ---
+afterEvaluate {
+    android.applicationVariants.all { variant ->
+        if (variant.buildType.name == "debug") {
+            def pkgTask = tasks.named("package${variant.name.capitalize()}")
+            def copyTask = tasks.register("copy${variant.name.capitalize()}ApkToFlutter", Copy) {
+                dependsOn pkgTask
+                from pkgTask.get().outputDirectory
+                include "*.apk"
+                into "${rootProject.projectDir.parent}/build/app/outputs/flutter-apk"
+            }
+            variant.assembleProvider.get().finalizedBy(copyTask)
+        }
+    }
 }

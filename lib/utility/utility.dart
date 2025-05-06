@@ -10,7 +10,7 @@ class Utility {
     return Image.asset(
       'assets/images/bg.jpg',
       fit: BoxFit.fitHeight,
-      color: Colors.black.withOpacity(0.7),
+      color: Colors.black.withValues(alpha: 0.7),
       colorBlendMode: BlendMode.darken,
     );
   }
@@ -19,17 +19,17 @@ class Utility {
   Color getLeadingBgColor({required String month}) {
     switch (month.toInt() % 6) {
       case 0:
-        return Colors.orangeAccent.withOpacity(0.2);
+        return Colors.orangeAccent.withValues(alpha: 0.2);
       case 1:
-        return Colors.blueAccent.withOpacity(0.2);
+        return Colors.blueAccent.withValues(alpha: 0.2);
       case 2:
-        return Colors.redAccent.withOpacity(0.2);
+        return Colors.redAccent.withValues(alpha: 0.2);
       case 3:
-        return Colors.purpleAccent.withOpacity(0.2);
+        return Colors.purpleAccent.withValues(alpha: 0.2);
       case 4:
-        return Colors.greenAccent.withOpacity(0.2);
+        return Colors.greenAccent.withValues(alpha: 0.2);
       case 5:
-        return Colors.yellowAccent.withOpacity(0.2);
+        return Colors.yellowAccent.withValues(alpha: 0.2);
       default:
         return Colors.black;
     }
@@ -58,24 +58,24 @@ class Utility {
       {required DateTime date,
       required String youbiStr,
       required List<DateTime> holiday}) {
-    var color = Colors.black.withOpacity(0.2);
+    var color = Colors.black.withValues(alpha: 0.2);
 
     switch (youbiStr) {
       case 'Sunday':
-        color = Colors.redAccent.withOpacity(0.2);
+        color = Colors.redAccent.withValues(alpha: 0.2);
         break;
 
       case 'Saturday':
-        color = Colors.blueAccent.withOpacity(0.2);
+        color = Colors.blueAccent.withValues(alpha: 0.2);
         break;
 
       default:
-        color = Colors.black.withOpacity(0.2);
+        color = Colors.black.withValues(alpha: 0.2);
         break;
     }
 
     if (holiday.contains(date)) {
-      color = Colors.greenAccent.withOpacity(0.2);
+      color = Colors.greenAccent.withValues(alpha: 0.2);
     }
 
     return color;

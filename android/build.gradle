@@ -1,15 +1,4 @@
-buildscript {
-    ext.kotlin_version = '1.6.10'
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
+// android/build.gradle  ── もう “repositories だけ” にする
 
 allprojects {
     repositories {
@@ -18,14 +7,53 @@ allprojects {
     }
 }
 
-rootProject.buildDir = '../build'
-subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
-    project.evaluationDependsOn(':app')
+subprojects { sub ->
+    // isar_flutter_libs が Android ライブラリとして評価された後に namespace を補完
+    if (sub.name == "isar_flutter_libs") {
+        sub.afterEvaluate {
+            if (sub.plugins.hasPlugin("com.android.library")) {
+                sub.android { namespace "com.github.isar_flutter_libs" }
+            }
+        }
+    }
 }
 
-tasks.register("clean", Delete) {
-    delete rootProject.buildDir
+/* ----- 既存内容の末尾に追加 ↓ ----- */
+subprojects { sub ->
+    if (sub.name == "isar_flutter_libs") {
+        sub.afterEvaluate {
+            // AndroidManifest.xml の package="dev.isar.isar_flutter_libs" を削除
+            def mf = file("${sub.projectDir}/src/main/AndroidManifest.xml")
+            if (mf.exists()) {
+                mf.text = mf.text.replace('package="dev.isar.isar_flutter_libs"', '')
+            }
+        }
+    }
+}
+/* ----- ここまで ----- */
+
+rootProject.buildDir = '../build'
+subprojects {
+
+    //  fix for verifyReleaseResources
+    // ============
+    afterEvaluate { project ->
+        if (project.plugins.hasPlugin("com.android.application") ||
+                project.plugins.hasPlugin("com.android.library")) {
+            project.android {
+                compileSdkVersion 35
+                buildToolsVersion "34.0.0"
+            }
+        }
+        if (project.hasProperty("android")) {
+            project.android {
+                if (namespace == null) {
+                    namespace project.group
+                }
+            }
+        }
+    }
+    // ============
+
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
 }

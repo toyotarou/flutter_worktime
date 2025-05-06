@@ -1,9 +1,8 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:worktime3/state/work_time_setting/work_time_setting_notifier.dart';
-import 'package:worktime3/state/work_time_setting/work_time_setting_state.dart';
 
+import '../controllers/work_time_setting/work_time_setting.dart';
 import '../data/http/client.dart';
 import '../data/http/path.dart';
 import '../extensions/extensions.dart';
@@ -13,9 +12,7 @@ import '../models/wts_time.dart';
 import '../utility/utility.dart';
 
 ////////////////////////////////////////////////
-final workTimeSummaryProvider =
-    StateNotifierProvider.autoDispose<WorkTimeSummaryNotifier, List<WtsItem>>(
-        (ref) {
+final workTimeSummaryProvider = StateNotifierProvider.autoDispose<WorkTimeSummaryNotifier, List<WtsItem>>((ref) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -77,8 +74,7 @@ class WorkTimeSummaryNotifier extends StateNotifier<List<WtsItem>> {
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
-final genbaWorkTimeProvider = StateNotifierProvider.autoDispose<
-    GenbaWorkTimeNotifier, List<GenbaWorkTime>>((ref) {
+final genbaWorkTimeProvider = StateNotifierProvider.autoDispose<GenbaWorkTimeNotifier, List<GenbaWorkTime>>((ref) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -97,8 +93,7 @@ class GenbaWorkTimeNotifier extends StateNotifier<List<GenbaWorkTime>> {
       final list = <GenbaWorkTime>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        list.add(
-            GenbaWorkTime.fromJson(value['data'][i] as Map<String, dynamic>));
+        list.add(GenbaWorkTime.fromJson(value['data'][i] as Map<String, dynamic>));
       }
 
       state = list;
@@ -111,8 +106,7 @@ class GenbaWorkTimeNotifier extends StateNotifier<List<GenbaWorkTime>> {
 ////////////////////////////////////////////////
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-final workTimeInputProvider =
-    StateNotifierProvider.autoDispose<WorkTimeInputNotifier, int>((ref) {
+final workTimeInputProvider = StateNotifierProvider.autoDispose<WorkTimeInputNotifier, int>((ref) {
   final client = ref.read(httpClientProvider);
 
   final workTimeSettingState = ref.watch(workTimeSettingProvider);
@@ -123,8 +117,7 @@ final workTimeInputProvider =
 });
 
 class WorkTimeInputNotifier extends StateNotifier<int> {
-  WorkTimeInputNotifier(
-      super.state, this.client, this.utility, this.workTimeSettingState);
+  WorkTimeInputNotifier(super.state, this.client, this.utility, this.workTimeSettingState);
 
   final HttpClient client;
   final Utility utility;
@@ -137,10 +130,7 @@ class WorkTimeInputNotifier extends StateNotifier<int> {
     uploadData['work_start'] = workTimeSettingState.start;
     uploadData['work_end'] = workTimeSettingState.end;
 
-    await client
-        .post(path: APIPath.worktimeinsert, body: uploadData)
-        .then((value) {})
-        .catchError((error, _) {
+    await client.post(path: APIPath.worktimeinsert, body: uploadData).then((value) {}).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
   }

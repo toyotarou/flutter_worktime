@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../controllers/work_time_setting/work_time_setting.dart';
 import '../extensions/extensions.dart';
-import '../state/work_time_setting/work_time_setting_notifier.dart';
 import '../utility/utility.dart';
 import '../viewmodel/work_time_notifier.dart';
 
@@ -57,7 +57,7 @@ class WorkTimeInputScreen extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 margin: const EdgeInsets.all(20),
-                color: Colors.black.withOpacity(0.3),
+                color: Colors.black.withValues(alpha: 0.3),
                 child: Container(
                   margin: const EdgeInsets.all(20),
                   child: Column(
@@ -65,7 +65,7 @@ class WorkTimeInputScreen extends ConsumerWidget {
                     children: <Widget>[
                       Text(date.yyyymmdd),
                       Divider(
-                        color: Colors.white.withOpacity(0.6),
+                        color: Colors.white.withValues(alpha: 0.6),
                         thickness: 2,
                       ),
                       Row(
@@ -112,7 +112,7 @@ class WorkTimeInputScreen extends ConsumerWidget {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
-                                Colors.greenAccent.withOpacity(0.3),
+                                Colors.greenAccent.withValues(alpha: 0.3),
                           ),
                           child: const Icon(Icons.input),
                           onPressed: () async {

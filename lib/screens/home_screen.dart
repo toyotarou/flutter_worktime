@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:worktime3/extensions/extensions.dart';
 import 'package:worktime3/screens/_pages/worktime_result_alert.dart';
 
 import '../viewmodel/work_time_notifier.dart';
@@ -94,7 +95,7 @@ class HomeScreen extends ConsumerWidget {
               ),
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.black.withValues(alpha: 0.5),
                 ),
               ),
             ],
@@ -110,8 +111,11 @@ class HomeScreen extends ConsumerWidget {
 
         //
 
-        body: TabBarView(
-          children: tabs.map((tab) => tab.widget).toList(),
+        body: SizedBox(
+          height: context.screenSize.height * 0.7,
+          child: TabBarView(
+            children: tabs.map((tab) => tab.widget).toList(),
+          ),
         ),
 
         //

@@ -4,13 +4,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:worktime3/controllers/app_param/app_param.dart';
+import 'package:worktime3/controllers/work_time_setting/work_time_setting.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/genba_worktime.dart';
 import '../../models/wts_item.dart';
 import '../../models/wts_time.dart';
-import '../../state/app_param/app_param_notifier.dart';
-import '../../state/work_time_setting/work_time_setting_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/holiday_notifier.dart';
 import '../../viewmodel/work_time_notifier.dart';
@@ -60,8 +60,7 @@ class WorkTimeDisplayPage extends HookConsumerWidget {
 
                   final exYm = ym.split('-');
 
-                  final listdate =
-                      DateTime(exYm[0].toInt(), exYm[1].toInt(), position);
+                  final listdate = DateTime(exYm[0].toInt(), exYm[1].toInt(), position);
 
                   //-------------------------//
                   if (position == 0) {
@@ -78,7 +77,7 @@ class WorkTimeDisplayPage extends HookConsumerWidget {
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
-                          color: Colors.white.withOpacity(0.3),
+                          color: Colors.white.withValues(alpha: 0.3),
                         ),
                       ),
                       color: _utility.getYoubiColor(
@@ -104,9 +103,7 @@ class WorkTimeDisplayPage extends HookConsumerWidget {
                                       child: Text(
                                         start,
                                         style: TextStyle(
-                                          color: (start != startEndMap['start'])
-                                              ? Colors.yellowAccent
-                                              : Colors.white,
+                                          color: (start != startEndMap['start']) ? Colors.yellowAccent : Colors.white,
                                         ),
                                       ),
                                     ),
@@ -114,9 +111,7 @@ class WorkTimeDisplayPage extends HookConsumerWidget {
                                       child: Text(
                                         end,
                                         style: TextStyle(
-                                          color: (end != startEndMap['end'])
-                                              ? Colors.yellowAccent
-                                              : Colors.white,
+                                          color: (end != startEndMap['end']) ? Colors.yellowAccent : Colors.white,
                                         ),
                                       ),
                                     ),
@@ -132,28 +127,23 @@ class WorkTimeDisplayPage extends HookConsumerWidget {
                         IconButton(
                           onPressed: () {
                             if (start != '') {
-                              ref
-                                  .watch(workTimeSettingProvider.notifier)
-                                  .setWorkTime(flag: 'start', time: start);
+                              ref.watch(workTimeSettingProvider.notifier).setWorkTime(flag: 'start', time: start);
                             }
 
                             if (end != '') {
-                              ref
-                                  .watch(workTimeSettingProvider.notifier)
-                                  .setWorkTime(flag: 'end', time: end);
+                              ref.watch(workTimeSettingProvider.notifier).setWorkTime(flag: 'end', time: end);
                             }
 
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    WorkTimeInputScreen(date: listdate),
+                                builder: (context) => WorkTimeInputScreen(date: listdate),
                               ),
                             );
                           },
                           icon: Icon(
                             Icons.info_outline,
-                            color: Colors.white.withOpacity(0.6),
+                            color: Colors.white.withValues(alpha: 0.6),
                           ),
                         ),
                       ],
@@ -176,7 +166,7 @@ class WorkTimeDisplayPage extends HookConsumerWidget {
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.white.withOpacity(0.8),
+          color: Colors.white.withValues(alpha: 0.8),
         ),
       ),
       child: Column(
@@ -190,7 +180,7 @@ class WorkTimeDisplayPage extends HookConsumerWidget {
           Container(
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withValues(alpha: 0.2),
             ),
             child: Row(
               children: [
@@ -200,17 +190,13 @@ class WorkTimeDisplayPage extends HookConsumerWidget {
                 Expanded(
                   child: Container(
                     alignment: Alignment.topRight,
-                    child: Text((wtsItem.salary == '')
-                        ? ''
-                        : wtsItem.salary.toCurrency()),
+                    child: Text((wtsItem.salary == '') ? '' : wtsItem.salary.toCurrency()),
                   ),
                 ),
                 Expanded(
                   child: Container(
                     alignment: Alignment.topRight,
-                    child: Text((wtsItem.hourSalary == '')
-                        ? ''
-                        : wtsItem.hourSalary.toCurrency()),
+                    child: Text((wtsItem.hourSalary == '') ? '' : wtsItem.hourSalary.toCurrency()),
                   ),
                 ),
               ],
@@ -225,9 +211,7 @@ class WorkTimeDisplayPage extends HookConsumerWidget {
               Container(),
               Row(
                 children: [
-                  Text((startEndMap['start'] == null)
-                      ? ''
-                      : startEndMap['start']!),
+                  Text((startEndMap['start'] == null) ? '' : startEndMap['start']!),
                   const SizedBox(width: 10),
                   const Text('〜'),
                   const SizedBox(width: 10),
@@ -266,10 +250,8 @@ class WorkTimeDisplayPage extends HookConsumerWidget {
         });
 
         if (timeMap['${element.company}|${element.genba}'] != null) {
-          startEndMap['start'] =
-              timeMap['${element.company}|${element.genba}']!.start;
-          startEndMap['end'] =
-              timeMap['${element.company}|${element.genba}']!.end;
+          startEndMap['start'] = timeMap['${element.company}|${element.genba}']!.start;
+          startEndMap['end'] = timeMap['${element.company}|${element.genba}']!.end;
         }
       }
     });

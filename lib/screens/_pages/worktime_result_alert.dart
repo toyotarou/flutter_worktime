@@ -51,7 +51,7 @@ class WorktimeResultAlert extends ConsumerWidget {
         margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(color: Colors.white.withOpacity(0.3)),
+            bottom: BorderSide(color: Colors.white.withValues(alpha: 0.3)),
           ),
         ),
         child: Column(
@@ -76,7 +76,7 @@ class WorktimeResultAlert extends ConsumerWidget {
               padding: const EdgeInsets.all(5),
               margin: const EdgeInsets.only(top: 10),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
               ),
               child: Row(
                 children: [
